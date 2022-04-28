@@ -206,14 +206,19 @@ function convertTrack2Text(track, rawSubtitleObject, operatingSystem) {
 }
 
 function getDownloadLink(_0x38bc07, _0x1c9cf5) {
-  let _0x1f8462 = document["createElement"]("a");
-  _0x1f8462["innerText"] = "Download file" + "\x0d\x0a\x0d\x0a";
-  _0x1f8462["download"] = _0x38bc07;
+  let anchorElement = document["createElement"]("a");
+  const icon = document.createElement("i");
+  const text = document.createElement("span");
+  icon.className = "fa-solid fa-download";
+  text.innerText = " Download File " + "\x0d\x0a\x0d\x0a";
+  anchorElement.appendChild(icon);
+  anchorElement.appendChild(text);
+  anchorElement["download"] = _0x38bc07;
   let _0x3e5760 = new Blob([_0x1c9cf5], {
     type: "application/octet-stream",
   });
-  _0x1f8462["href"] = URL["createObjectURL"](_0x3e5760);
-  return _0x1f8462;
+  anchorElement["href"] = URL["createObjectURL"](_0x3e5760);
+  return anchorElement;
 }
 
 function getSrtTimeText(_0x4cf97d, _0x2151fb) {
