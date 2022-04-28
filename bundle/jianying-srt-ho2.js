@@ -290,7 +290,7 @@ function drop(_0x1ffad3) {
     _0x341656 = null;
   }
 }
-var dropbox = document["getElementById"]("input-text");
+var dropbox = document["getElementById"]("kratos-wrapper");
 dropbox["addEventListener"]("dragenter", dragenter, ![]);
 dropbox["addEventListener"]("dragover", dragover, ![]);
 dropbox["addEventListener"]("drop", drop, ![]);
