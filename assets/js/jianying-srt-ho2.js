@@ -2,7 +2,6 @@ let inputText = document["getElementById"]("input-text");
 let hintSpan = document["getElementById"]("rn-hint"); //hint element
 let outputDivArray = [];
 let RN = "\x0d\x0a"; //default is windows
-let vtemp = document["getElementById"]("texttosrt-temp");
 const extraXmlRegex = /(<[^><]+>)/g;
 
 // for changing next line
@@ -265,8 +264,6 @@ function formatDigit(_0x1c3fc9, _0x2e0b99) {
   return _0x2cdf92;
 }
 
-function importTxt() {}
-
 function dragenter(_0x595871) {
   _0x595871["stopPropagation"]();
   _0x595871["preventDefault"]();
@@ -284,15 +281,15 @@ function drop(_0x1ffad3) {
   var _0x27b2b7 = _0x310a77["files"];
   if (_0x27b2b7["length"]) {
     var _0x52b4c2 = _0x27b2b7[0x0];
-    var _0x341656 = new FileReader();
-    _0x341656["onload"] = function () {
+    var fileReader = new FileReader();
+    fileReader["onload"] = function () {
       document["getElementById"]("input-text")["value"] = this["result"];
     };
-    _0x341656["readAsText"](
+    fileReader["readAsText"](
       _0x52b4c2,
       document["getElementById"]("encoding")["value"]
     );
-    _0x341656 = null;
+    fileReader = null;
   }
 }
 var dropbox = document["getElementById"]("kratos-wrapper");

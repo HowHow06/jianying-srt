@@ -18,7 +18,7 @@
                   ** 修改后需要重新生成</span>
               </label>
               <div class="form-group">
-                <label>文件编码：</label>
+                <label>上传的文件编码：</label>
                 <select id="encoding">
                   <option value="gbk">GBK</option>
                   <option value="utf-8" selected="">UTF-8</option>
@@ -43,13 +43,13 @@
 "material_id":"28824EDA-D841-4c81-B264-DC268957660B","target_timerange":{"duration":3000000,"start":0}}],"type":"text"},
 {"id":"45336909-80D9-4320-93C2-1737989C45FC","segments":[{"id":"7729B6F5-8C3D-46ee-A0F4-3D3FC5B82823","material_id":
 "A4637647-EF07-418c-B2A4-6781EC9B6003","target_timerange":{"duration":3000000,"start":2652233000}}],"type":"text"}]}</textarea>
-              <button type="button" onclick="onGenerateClick()">
+              <button type="button" class="btn-custom" onclick="onGenerateClick()">
                 生成 SRT 文件
               </button>
-              <button type="button" title="生成不带时间序列的，纯字幕文本的TXT文件。" onclick="onGenerateTextClick()">
+              <button type="button" class="btn-custom" title="生成不带时间序列的，纯字幕文本的TXT文件。" onclick="onGenerateTextClick()">
                 生成 TXT
               </button>
-              <button type="button" onclick="onClearClick()">
+              <button type="button" class="btn-custom" onclick="onClearClick()">
                 清空
               </button>
             </div>

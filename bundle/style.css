@@ -4164,3 +4164,35 @@ ul.imglistbox li:hover span{ background:#F2F2F2}
 @media screen and (max-width:520px) {
     ul{padding-left: 24px}
 }
+
+
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.onhover-opacity-change{
+	opacity: 0.8;
+}
+
+.onhover-opacity-change:hover{
+	opacity: 1;
+}
+
+.border-radius-3{
+	border-radius: 3px;
+}
+
+.border-radius-5{
+	border-radius: 5px;
+}
+
+.btn-custom{
+	cursor: pointer;
+	opacity: 0.8;
+	border-radius: 3px;
+}
+
+.btn-custom:hover{
+	opacity: 1;
+}
