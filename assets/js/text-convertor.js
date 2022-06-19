@@ -63,10 +63,11 @@ function onGeneratePinyinClick({ hasSound = false }) {
 
   const outputDiv = document["createElement"]("div");
   outputDiv["innerHTML"] =
-    "<textarea\x20class=\x22texttosrt\x22\x20readonly>" +
+    "<textarea\x20class=\x22texttosrt\x22\x20id=\x22outputPinyin\x22\x20readonly>" +
     newOutput +
     "</textarea>";
-  outputDiv["appendChild"](
+  outputDiv.appendChild(getCopyToClipboardButton(newOutput));
+  outputDiv.appendChild(
     getDownloadLink("output_" + Date.now() + ".txt", newOutput)
   );
   document["getElementById"]("outputWrapper")["appendChild"](outputDiv);
@@ -134,6 +135,35 @@ function getDownloadLink(_0x38bc07, _0x1c9cf5) {
   anchorElement["href"] = URL["createObjectURL"](_0x3e5760);
   return anchorElement;
 }
+
+function getCopyToClipboardButton(content) {
+  let element = document.createElement("button");
+  element.title = "复制拼音到剪贴板";
+  element.textContent = "复制";
+  element.className = "btn-custom";
+  element.style.marginRight = "6px";
+  element.onclick = () => {
+    var codeToBeCopied = content;
+    var emptyArea = document.createElement("TEXTAREA");
+    emptyArea.innerHTML = codeToBeCopied;
+    document.body.appendChild(emptyArea);
+
+    emptyArea.select();
+    document.execCommand("copy");
+
+    document.body.removeChild(emptyArea);
+    showCopiedToClipboardAlert();
+  };
+  return element;
+}
+
+const showCopiedToClipboardAlert = () => {
+  $("#copied-alert")
+    .fadeTo(2000, 100)
+    .slideUp(500, function () {
+      //$("#copied-alert").slideUp(500); //can remove this callback
+    });
+};
 
 // --------------------------------------
 // for drag to upload
