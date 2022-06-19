@@ -236,7 +236,6 @@
   <script type="text/javascript" src="./bundle/jquery.easing.min.js" id="easing-js"></script>
   <script type="text/javascript" src="./bundle/jquery.qrcode.min.js" id="qrcode-js"></script>
   <script type="text/javascript" src="./bundle/modernizr.min.js" id="modernizr-js"></script>
-  <!-- <script type="text/javascript" src="./bundle/bootstrap.min.js" id="bootstrap-js"></script> -->
   <script type="text/javascript" src="./bundle/vendors/bootstrap4/js/bootstrap.bundle.js" id="bootstrap-js"></script>
   <script type="text/javascript" src="./bundle/jquery.waypoints.min.js" id="waypoints-js"></script>
   <script type="text/javascript" src="./bundle/jquery.stellar.min.js" id="stellar-js"></script>
