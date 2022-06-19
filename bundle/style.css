@@ -571,7 +571,7 @@ table,table tbody tr th {
 }
 
 .sf-menu a {
-	color: #fff;
+	color: #fff !important;
 	padding: .75em 1em!important;
 	font-weight: 400;
 	border-left: none;
@@ -796,7 +796,7 @@ table,table tbody tr th {
 	position: absolute;
 	float: right;
 	margin-right: -6px;
-	font-size: 20px;
+	font-size: 16px;
 	top: 50%;
 	margin-top: -9px;
 	font-family: FontAwesome;
