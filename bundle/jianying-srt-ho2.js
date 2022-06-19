@@ -6,8 +6,8 @@ let vtemp = document["getElementById"]("texttosrt-temp");
 const extraXmlRegex = /(<[^><]+>)/g;
 
 // for changing next line
-function onChange(_0x4019d4) {
-  switch (_0x4019d4) {
+function onChange(lineSeperator) {
+  switch (lineSeperator) {
     case "rn": //windows
       RN = "\x0d\x0a";
       break;
