@@ -128,7 +128,7 @@
                         <a href="./">剪映字幕导出工具</a>
                       </li>
                       <li>
-                        <a href="./text-convertor">中文转换工具</a>
+                        <a href="./text-convertor.php">中文转换工具</a>
                       </li>
                     </ul>
                   </li>
