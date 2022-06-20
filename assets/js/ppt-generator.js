@@ -235,6 +235,10 @@ function AddLyricToSlide({
 
 //set default settings
 $(document).ready(function () {
+  onRestoreNormalDefaultOptionClick();
+});
+
+function onRestoreNormalDefaultOptionClick() {
   const primaryDefaultOption = {
     x: "0%",
     y: {
@@ -287,4 +291,57 @@ $(document).ready(function () {
     null,
     4
   );
-});
+}
+
+function onRestoreGreenScreenDefaultOptionClick() {
+  const primaryDefaultOption = {
+    x: "0%",
+    y: {
+      upper: "84%",
+      lower: "55%",
+    },
+    bold: true,
+    color: "FFFFFF",
+    fontFace: "Microsoft Yahei",
+    fontSize: 30,
+    shadow: {
+      type: "outer",
+      color: "000000",
+      blur: 3,
+      offset: 3,
+      angle: 45,
+      opacity: "0.5",
+    },
+    charSpacing: 2,
+  };
+  const secondaryDefaultOption = {
+    x: "0%",
+    y: {
+      upper: "92%",
+      lower: "65%",
+    },
+    bold: true,
+    color: "FFFFFF",
+    fontFace: "Microsoft Yahei",
+    fontSize: 18,
+    shadow: {
+      type: "outer",
+      color: "000000",
+      blur: 3,
+      offset: 3,
+      angle: 45,
+      opacity: "0.5",
+    },
+    charSpacing: 0,
+  };
+  advancedPrimaryOptionElement.value = JSON.stringify(
+    primaryDefaultOption,
+    null,
+    4
+  );
+  advancedSecondaryOptionElement.value = JSON.stringify(
+    secondaryDefaultOption,
+    null,
+    4
+  );
+}
