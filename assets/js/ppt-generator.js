@@ -35,6 +35,11 @@ const DEFAULT_TEXT_OPTION = {
   isTextBox: true,
 };
 
+//set default settings
+$(document).ready(function () {
+  onRestoreNormalDefaultOptionClick();
+});
+
 function onGeneratePptClick() {
   // Swal.fire({
   //   title: "Please Wait...",
@@ -233,11 +238,6 @@ function AddLyricToSlide({
   });
 }
 
-//set default settings
-$(document).ready(function () {
-  onRestoreNormalDefaultOptionClick();
-});
-
 function onRestoreNormalDefaultOptionClick() {
   const primaryDefaultOption = {
     x: "0%",
@@ -345,3 +345,12 @@ function onRestoreGreenScreenDefaultOptionClick() {
     4
   );
 }
+
+// const textarea = document.querySelector("textarea");
+// const lineNumbers = document.querySelector(".line-numbers");
+
+// textarea.addEventListener("keyup", (event) => {
+//   const numberOfLines = event.target.value.split("\n").length;
+
+//   lineNumbers.innerHTML = Array(numberOfLines).fill("<span></span>").join("");
+// });
