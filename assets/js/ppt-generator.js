@@ -346,8 +346,8 @@ function onRestoreGreenScreenDefaultOptionClick() {
   );
 }
 
-// var editor = CodeMirror.fromTextArea(document.getElementById("input-text"), {
-//   lineNumbers: true,
-// });
-
-// editor.save();
+function updateLineNumber(textarea, indicator) {
+  indicator.innerText = textarea.value
+    .substr(0, textarea.selectionStart)
+    .split("\n").length;
+}
