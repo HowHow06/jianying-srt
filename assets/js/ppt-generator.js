@@ -210,6 +210,7 @@ function AddLyricToSlide({
 
   const finalOption = { ...DEFAULT_TEXT_OPTION, ...customOption };
   // had to do like below because somehow the shadow value cannot be parsed correctly
+
   slide.addText(line, {
     ...finalOption,
     shadow: {
@@ -218,6 +219,7 @@ function AddLyricToSlide({
       blur: finalOption.shadow?.blur ?? 3,
       offset: finalOption.shadow?.offset ?? 3,
       angle: finalOption.shadow?.angle ?? 45,
+      opacity: finalOption.shadow?.opacity ?? 0.5,
     },
   });
 }
@@ -234,14 +236,16 @@ $(document).ready(function () {
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
     fontSize: 48,
-    charSpacing: 2,
     outline: { size: "0", color: "FFFFFF" },
     shadow: {
       type: "outer",
+      color: "000000",
       blur: 3,
       offset: 3,
       angle: 45,
+      opacity: "0.5",
     },
+    charSpacing: 2,
   };
   const secondaryDefaultOption = {
     x: "0%",
@@ -253,14 +257,16 @@ $(document).ready(function () {
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
     fontSize: 24, //28 for national park
-    charSpacing: 0,
     outline: { size: "0", color: "FFFFFF" },
     shadow: {
       type: "outer",
+      color: "000000",
       blur: 3,
       offset: 3,
       angle: 45,
+      opacity: "0.5",
     },
+    charSpacing: 0,
   };
   advancedPrimaryOptionElement.value = JSON.stringify(
     primaryDefaultOption,
