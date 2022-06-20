@@ -36,11 +36,20 @@ const DEFAULT_TEXT_OPTION = {
 };
 
 function onGeneratePptClick() {
+  // Swal.fire({
+  //   title: "Please Wait...",
+  //   html: "Generating PPT...",
+  //   didOpen: () => {
+  //     Swal.showLoading();
+  //   },
+  // });
+
   const hasSecondaryContent = !document.getElementById(
     "chbHasIgnoreSecondaryContent"
   ).checked;
 
   generateFullPpt({ hasSecondaryContent: hasSecondaryContent });
+  // Swal.close();
 }
 
 // to convert file to data url
