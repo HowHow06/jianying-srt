@@ -44,76 +44,39 @@
   <div id="kratos-wrapper">
     <div id="kratos-page">
       <nav id="offcanvas-menu" class="menu-%e9%a1%b6%e9%83%a8%e8%8f%9c%e5%8d%95-container" style="height: 703px">
-        <!-- <ul id="" class="" style="touch-action: pan-y">
-            <li>
-              <a class="sf-with-ul"
-                ><i class="fa fa-cog" aria-hidden="true"></i> 项目</a
-              >
-              <ul class="sub-menu" style="display: none">
-                <li>
-                  <a href="#"
-                    >黑鸟播放器</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    >TeleList工具</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    >在线格式转换</a
-                  >
-                </li>
-                <li>
-                  <a href="#">剪映工具</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a><i class="fa fa-code" aria-hidden="true"></i>工具</a>
-            </li>
-            <li>
-              <a class="sf-with-ul"
-                ><i class="fa fa-gitlab" aria-hidden="true"></i> 关于</a
-              >
-              <ul class="sub-menu" style="display: none">
-                <li><a href="#">关于本站</a></li>
-                <li>
-                  <a
-                    target="_blank"
-                    rel="noopener"
-                    href="#"
-                    >文章归档</a
-                  >
-                </li>
-                <li>
-                  <a href="#">留言板</a>
-                </li>
-                <li>
-                  <a class="sf-with-ul">网站管理</a>
-                  <ul class="sub-menu" style="display: none">
-                    <li><a href="#">登录</a></li>
-                    <li>
-                      <a href="#?action=register"
-                        >注册</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#"
-                ><i class="fa fa-gg" aria-hidden="true"></i> 链接</a
-              >
-            </li>
-          </ul> -->
+        <ul id="" class="" style="touch-action: pan-y">
+          <li>
+            <a class="sf-with-ul"><i class="fa fa-code" aria-hidden="true"></i> 工具 </a>
+            <ul class="sub-menu" style="display: none">
+              <li>
+                <a href="./">剪映字幕导出工具</a>
+              </li>
+              <li>
+                <a href="./text-convertor.php">中文转换工具</a>
+              </li>
+              <li>
+                <a href="./ppt-generator.php">PPT 生成器</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="sf-with-ul"><i class="fa-brands fa-github" aria-hidden="true"></i> Github 项目 </a>
+            <ul class="sub-menu" style="display: none">
+              <li>
+                <a href="https://github.com/HowHow06/pptGenerator" target="_blank">Excel-PPT生成</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/howard-lim-3b79a21b8/" target="_blank"><i class="fa-brands fa-linkedin"></i> 联系我 </a>
+          </li>
+        </ul>
       </nav>
       <div id="kratos-header">
         <header id="kratos-header-section">
           <div class="container">
             <div class="nav-header">
+              <a href="#" class="js-kratos-nav-toggle kratos-nav-toggle"><i></i></a>
               <h1 id="kratos-logo">
                 <a href="./">
                   <img src="assets\logo\trimmed-Ho2-logos_white.png" alt="logo" height="35px" />
@@ -142,6 +105,9 @@
                         <a href="https://github.com/HowHow06/pptGenerator" target="_blank">Excel-PPT生成</a>
                       </li>
                     </ul>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/in/howard-lim-3b79a21b8/" target="_blank"><i class="fa-brands fa-linkedin"></i> 联系我 </a>
                   </li>
                 </ul>
               </nav>
