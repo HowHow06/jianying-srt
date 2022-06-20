@@ -62,7 +62,7 @@ function onGeneratePinyinClick({ hasSound = false }) {
 
   const outputDiv = document["createElement"]("div");
   outputDiv["innerHTML"] =
-    "<textarea\x20class=\x22texttosrt\x22\x20id=\x22outputPinyin\x22\x20readonly>" +
+    "<textarea\x20class=\x22texttosrt\x22\x20id=\x22outputPinyin\x22>" +
     newOutput +
     "</textarea>";
   outputDiv.appendChild(getCopyToClipboardButton(newOutput));
