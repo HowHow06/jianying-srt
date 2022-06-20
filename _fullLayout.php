@@ -213,7 +213,7 @@
           color: #3f3f3f;
         }
       </style>
-      <div id="kratos-blog-post" style="background: #ffffff">
+      <div id="kratos-blog-post" style="background: #fafafa">
         <!-- content here -->
         <?php if (isset($childView)) {
           include($childView);
