@@ -5,7 +5,6 @@ let RN = "\x0d\x0a"; //default is windows, not in use in this file
 let inputText = document["getElementById"]("input-text");
 let outputDivArray = [];
 let vtemp = document["getElementById"]("output-temp");
-const extraXmlRegex = /(<[^><]+>)/g;
 
 // for changing next line, not in use
 function onChangeLineSeperator(lineSeperator) {
