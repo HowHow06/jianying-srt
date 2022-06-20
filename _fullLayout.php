@@ -130,6 +130,9 @@
                       <li>
                         <a href="./text-convertor.php">中文转换工具</a>
                       </li>
+                      <li>
+                        <a href="./ppt-generator.php">PPT 生成器</a>
+                      </li>
                     </ul>
                   </li>
                   <li>

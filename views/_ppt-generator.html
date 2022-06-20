@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="./assets/css/drag-n-drop.css">
+<div class="container">
+    <div class="alert alert-success" style="display: none; position: fixed; right: 100px; top: 50px; z-index: 2000"
+        id="copied-alert">
+        <i class="fa-solid fa-circle-check"></i>
+        已复制到剪贴板
+    </div>
+    <div class="row">
+        <section id="main" class="col-md-12">
+            <article>
+                <div class="kratos-hentry kratos-post-inner clearfix">
+                    <div class="kratos-post-content">
+                        <!-- 开始 内容 -->
+                        <h1>PPT 生成器</h1>
+
+                        <div class="drop-zone">
+                            <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                            <input type="file" name="myFile" class="drop-zone__input">
+                        </div>
+
+                        <h3>输入中文内容</h3>
+                        <div>
+                            <!-- <label class="jytosrt-szhhf">设置换行符：
+                                <select onchange="onChangeLineSeperator(this.value)">
+                                    <option value="rn">\r\n （Windows）</option>
+                                    <option value="n">\n （Linux）</option>
+                                </select>
+                                <span id="rn-hint" style="color: red; display: none">
+                                    ** 修改后需要重新生成</span>
+                            </label> -->
+                            <div class="form-group">
+                                <label>上传的文件编码：</label>
+                                <select id="encoding">
+                                    <option value="gbk">GBK</option>
+                                    <option value="utf-8" selected="">UTF-8</option>
+                                    <option value="gbk">GB2312</option>
+                                    <option value="big5">BIG5</option>
+                                    <option value="korean">EUC-KR（韩文）</option>
+                                    <option value="euc-jp">EUC-JP（日文）</option>
+                                    <option value="utf-16be">UTF-16BE</option>
+                                    <option value="utf-16le">UTF-16LE</option>
+                                </select>
+                            </div>
+                            <span class="btn btn-success fileinput-button">
+                                <span>上传</span>
+                                <input type="file" id="inputBrow" />
+                            </span>
+                        </div>
+
+                        <div>
+                            <textarea id="input-text" class="texttosrt"></textarea>
+                            <button type="button" title="把以上内容转为简体" class="btn-custom"
+                                onclick="onConvertToSimplifiedClick()">
+                                ^ 转简体
+                            </button>
+                            <button type="button" title="把以上内容里的“他”转为“祂”" class="btn-custom"
+                                onclick="onConvertCharacterClick('他','祂')">
+                                ^ 他 -> 祂
+                            </button>
+                            <button type="button" title="把以上内容里的“你”转为“祢”" class="btn-custom"
+                                onclick="onConvertCharacterClick('你','祢')">
+                                ^ 你 -> 祢
+                            </button>
+                            <button type="button" title="在以下文本框生成拼音(带声调)" class="btn-custom"
+                                onclick="onGeneratePinyinClick({hasSound : true})">
+                                生成拼音 (带声调)
+                            </button>
+                            <button type="button" title="在以下文本框生成拼音(不带声调)" class="btn-custom"
+                                onclick="onGeneratePinyinClick({hasSound : false})">
+                                生成拼音 (不带声调)
+                            </button>
+                            <button type="button" class="btn-custom" onclick="onClearClick()">
+                                清空
+                            </button>
+                        </div>
+                        <h3>输出拼音</h3>
+                        <div id="outputWrapper">
+                            <textarea id="output-temp" class="texttosrt" spellcheck="false"> # 输出结果 </textarea>
+                        </div>
+                        <!-- 结束 内容 -->
+                    </div>
+
+                </div>
+                <div class="kratos-hentry kratos-post-inner clearfix">
+                    <div class="kratos-post-content">
+                        <!-- 内容 -->
+                        <h3>注意</h3>
+                        <p>
+                            以上的转换会把“祢”字翻成“ni”
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/drag-n-drop.js"></script>
+<script type="text/javascript" src="./assets/js/text-convertor.min.js"></script>
