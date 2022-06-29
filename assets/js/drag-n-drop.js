@@ -10,6 +10,8 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
   inputElement.addEventListener("change", (e) => {
     if (inputElement.files.length) {
       updateThumbnail(dropZoneElement, inputElement.files[0]);
+    } else {
+      removeThumbnail(dropZoneElement);
     }
   });
 
@@ -69,5 +71,26 @@ function updateThumbnail(dropZoneElement, file) {
     };
   } else {
     thumbnailElement.style.backgroundImage = null;
+  }
+}
+
+/**
+ * Removes the thumbnail on a drop zone element.
+ *
+ * @param {HTMLElement} dropZoneElement
+ */
+function removeThumbnail(dropZoneElement) {
+  let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+  if (thumbnailElement) {
+    thumbnailElement.remove();
+  }
+
+  // add prompt
+  if (!dropZoneElement.querySelector(".drop-zone__prompt")) {
+    const promptElement = document.createElement("span");
+    promptElement.classList.add("drop-zone__prompt");
+    promptElement.innerText = "Drop file here or click to upload";
+    dropZoneElement.appendChild(promptElement);
   }
 }
