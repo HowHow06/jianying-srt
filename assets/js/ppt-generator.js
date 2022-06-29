@@ -1,3 +1,5 @@
+// import PptxGenJS from "/jianying-srt/bundle/vendors/pptxgen/pptxgen.es.js";
+
 const primaryElement = document.getElementById("input-text");
 const defaultSecondaryElement = document.getElementById("output-temp");
 const backgroundImageElement = document.getElementById("uploadBackgroundImage");
@@ -34,11 +36,6 @@ const DEFAULT_TEXT_OPTION = {
   align: "center",
   isTextBox: true,
 };
-
-//set default settings
-$(document).ready(function () {
-  onRestoreNormalDefaultOptionClick();
-});
 
 function onGeneratePptClick() {
   // Swal.fire({
@@ -281,16 +278,7 @@ function onRestoreNormalDefaultOptionClick() {
     },
     charSpacing: 0,
   };
-  advancedPrimaryOptionElement.value = JSON.stringify(
-    primaryDefaultOption,
-    null,
-    4
-  );
-  advancedSecondaryOptionElement.value = JSON.stringify(
-    secondaryDefaultOption,
-    null,
-    4
-  );
+  setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
 }
 
 function onRestoreGreenScreenDefaultOptionClick() {
@@ -334,13 +322,13 @@ function onRestoreGreenScreenDefaultOptionClick() {
     },
     charSpacing: 0,
   };
-  advancedPrimaryOptionElement.value = JSON.stringify(
-    primaryDefaultOption,
-    null,
-    4
-  );
+  setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
+}
+
+function setAdvancedSettings(primaryOption, secondaryOption) {
+  advancedPrimaryOptionElement.value = JSON.stringify(primaryOption, null, 4);
   advancedSecondaryOptionElement.value = JSON.stringify(
-    secondaryDefaultOption,
+    secondaryOption,
     null,
     4
   );
@@ -351,3 +339,103 @@ function updateLineNumber(textarea, indicator) {
     .substr(0, textarea.selectionStart)
     .split("\n").length;
 }
+
+function onExportSettingClick() {
+  let primaryOption, secondaryOption;
+  try {
+    primaryOption = JSON.parse(advancedPrimaryOptionElement.value);
+    secondaryOption = JSON.parse(advancedSecondaryOptionElement.value);
+  } catch (err) {
+    console.log(err);
+    alert(
+      "Error in compiling Primary Advanced Option, please check your input"
+    );
+    return;
+  }
+
+  const blob = new Blob(
+    [
+      JSON.stringify({
+        advancedPrimaryOption: primaryOption,
+        advancedSecondaryOption: secondaryOption,
+      }),
+    ],
+    {
+      type: "application/octet-stream",
+    }
+  );
+  const blobUrl = URL.createObjectURL(blob);
+
+  // Create a link element
+  const link = document.createElement("a");
+
+  // Set link's href to point to the Blob URL
+  link.href = blobUrl;
+  link.download = `PptGeneratorSetting-${Date.now()}.json`;
+
+  // Append link to the body
+  document.body.appendChild(link);
+
+  // Dispatch click event on the link
+  // This is necessary as link.click() does not work on the latest firefox
+  link.dispatchEvent(
+    new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    })
+  );
+
+  // Remove link from body
+  document.body.removeChild(link);
+}
+
+(function () {
+  var uploadElement = document.querySelector("#uploadSetting");
+
+  uploadElement.addEventListener("change", function (event) {
+    const fileExtension = event.target.value.split(".").pop();
+    if (fileExtension !== "json") {
+      alert("Invalid settings file");
+      return;
+    }
+    readSettingsFile(event.target.files[0]);
+  });
+
+  function readSettingsFile(file) {
+    var fileReader = new FileReader();
+    fileReader.onload = function (event) {
+      let importedSettings;
+      try {
+        importedSettings = JSON.parse(event.target.result);
+      } catch (error) {
+        console.log(err);
+        alert("Error in compiling imported option, please check your file");
+        return;
+      }
+
+      if (
+        !importedSettings?.advancedPrimaryOption ||
+        !importedSettings?.advancedSecondaryOption
+      ) {
+        alert("Invalid settings");
+        return;
+      }
+      alert("Imported Successfully");
+
+      setAdvancedSettings(
+        importedSettings?.advancedPrimaryOption,
+        importedSettings?.advancedSecondaryOption
+      );
+      // reset back to empty, else cannot uploading same file cannot trigger on change
+      document.querySelector("#uploadSetting").value = "";
+    };
+    fileReader.readAsText(file);
+    fileReader = null;
+  }
+})();
+
+//set default settings
+$(document).ready(function () {
+  onRestoreNormalDefaultOptionClick();
+});

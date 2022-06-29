@@ -4171,6 +4171,10 @@ ul.imglistbox li:hover span{ background:#F2F2F2}
 	cursor: pointer;
 }
 
+.onhover-underline:hover {
+    text-decoration: underline;
+}
+
 .onhover-opacity-change{
 	opacity: 0.8;
 }
@@ -4195,4 +4199,14 @@ ul.imglistbox li:hover span{ background:#F2F2F2}
 
 .btn-custom:hover{
 	opacity: 1;
+}
+
+.default-anchor{
+	cursor: pointer;
+	color: #0068ee;
+}
+
+.default-anchor:hover {
+    text-decoration: underline;
+	opacity: 0.8;
 }

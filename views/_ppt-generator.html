@@ -36,8 +36,10 @@
                     <div class="kratos-post-content">
                         <h3>2. 输入中文或主内容</h3>
                         <div>
-                            <div >现所选行数:<span id="lineNo"></span></div>
-                            <textarea id="input-text" class="texttosrt" onkeyup="updateLineNumber(this, document.getElementById('lineNo'));" onmouseup="this.onkeyup();"></textarea>
+                            <div>现所选行数:<span id="lineNo"></span></div>
+                            <textarea id="input-text" class="texttosrt"
+                                onkeyup="updateLineNumber(this, document.getElementById('lineNo'));"
+                                onmouseup="this.onkeyup();"></textarea>
                             <button type="button" title="把以上内容转为简体" class="btn-custom"
                                 onclick="onConvertToSimplifiedClick()">
                                 ^ 转简体
@@ -112,15 +114,36 @@
                                     https://gitbrent.github.io/PptxGenJS/docs/api-text/
                                 </a>
                             </p>
-                            <button type="button" class="btn-custom" onclick="onRestoreNormalDefaultOptionClick()">
-                                普通预设
-                            </button>
-                            <button type="button" class="btn-custom" onclick="onRestoreGreenScreenDefaultOptionClick()">
-                                绿幕预设
-                            </button>
-                            <a href="./assets/img/greenscreenWithBlackCover.png" target="_blank">
-                                <i class="fa-solid fa-up-right-from-square"></i> 预设绿幕背景图
-                            </a>
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button type="button" class="btn-custom"
+                                        onclick="onRestoreNormalDefaultOptionClick()">
+                                        普通预设
+                                    </button>
+                                    <button type="button" class="btn-custom"
+                                        onclick="onRestoreGreenScreenDefaultOptionClick()">
+                                        绿幕预设
+                                    </button>
+                                    <a href="./assets/img/greenscreenWithBlackCover.png" target="_blank">
+                                        <i class="fa-solid fa-up-right-from-square"></i> 预设绿幕背景图
+                                    </a>
+                                </div>
+
+
+
+                                <div>
+                                    <label class="custom-file-upload cursor-pointer onhover-underline default-anchor">
+                                        <input type="file" class="d-none" id="uploadSetting"/>
+                                        导入设定
+                                    </label>
+
+                                    <button type="button" class="btn-custom" onclick="onExportSettingClick()">
+                                        导出设定
+                                    </button>
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="d-flex justify-content-between">

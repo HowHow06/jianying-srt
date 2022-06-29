@@ -33,23 +33,24 @@ var dropbox = document["getElementById"]("kratos-wrapper");
 dropbox["addEventListener"]("dragenter", dragenter, ![]);
 dropbox["addEventListener"]("dragover", dragover, ![]);
 dropbox["addEventListener"]("drop", drop, ![]);
+
 (function () {
-  var _0x451cb5 = document["querySelector"]("#inputBrow");
-  var _0x1fb2bd = document["querySelector"]("#input-text");
-  _0x451cb5["addEventListener"]("change", function (_0x55f7f1) {
-    _0x33a113(_0x55f7f1["target"]["files"][0x0]);
+  var uploadElement = document["querySelector"]("#inputBrow");
+  var inputTextElement = document["querySelector"]("#input-text");
+  uploadElement.addEventListener("change", function (event) {
+    readFile(event.target.files[0]);
   });
 
-  function _0x33a113(_0x108fad) {
+  function readFile(file) {
     console["log"]("hand");
-    var _0x1faf19 = new FileReader();
-    _0x1faf19["onload"] = function (_0x390aa5) {
-      _0x1fb2bd["value"] = _0x390aa5["target"]["result"];
+    var fileReader = new FileReader();
+    fileReader.onload = function (event) {
+      inputTextElement["value"] = event.target.result;
     };
-    _0x1faf19["readAsText"](
-      _0x108fad,
+    fileReader["readAsText"](
+      file,
       document["getElementById"]("encoding")["value"]
     );
-    _0x1faf19 = null;
+    fileReader = null;
   }
 })();
