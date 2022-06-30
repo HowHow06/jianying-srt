@@ -404,7 +404,7 @@ function populateFontFaceList({
     endpoint = `${self.location.host}/${self.location.pathname.split("/")[1]}`; //for dev purpose
   }
 
-  var requestURL = `${self.location.protocol}://${endpoint}${filePath}`;
+  var requestURL = `${self.location.protocol}//${endpoint}${filePath}`;
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = process;
   xhr.open("GET", requestURL, false);
