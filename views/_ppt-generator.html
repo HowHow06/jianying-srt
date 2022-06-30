@@ -94,11 +94,10 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between my-2">
                             <div>
-                                <button type="button" class="btn-custom"
-                                    onclick="onRestoreNormalDefaultOptionClick()">
+                                <button type="button" class="btn-custom" onclick="onRestoreNormalDefaultOptionClick()">
                                     普通预设
                                 </button>
                                 <button type="button" class="btn-custom"
@@ -119,316 +118,337 @@
                         </div>
                         <!-- <div id="output"></div> -->
                         <div class="d-flex justify-content-between settings-panel container-fluid p-0 m-0">
-                            <div class="col-md-6  col-sm-12">
-                                <span>主内容属性</span>
-                                <hr>
-                                <form action="post" id="primarySettings">
-                                    <div class="container-fluid p-0">
-                                        <div class="row">
-                                            <label for="x" class="col-sm-4 col-form-label">X(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" id="x" name="x" placeholder="0">
-                                                <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip" title="文本框与左边框之间的距离(0-100)"></i>
+                            <div class="row" style="width: 100%">
+                                <div class="col-md-6 col-sm-12 mt-md-2">
+                                    <span>主内容属性</span>
+                                    <hr>
+                                    <form action="post" id="primarySettings">
+                                        <div class="container-fluid p-0">
+                                            <div class="row">
+                                                <label for="x" class="col-sm-4 col-form-label">X(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" id="x" name="x" placeholder="0">
+                                                    <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip"
+                                                        title="文本框与左边框之间的距离(0-100)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="y-upper" class="col-sm-4 col-form-label">Upper Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="y-upper" placeholder="10">
+                                                    <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip"
+                                                        title="文本框与上边框之间的距离(0-100)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="y-lower" class="col-sm-4 col-form-label">Lower Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="y-lower" placeholder="10">
+                                                    <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip"
+                                                        title="文本框与上边框之间的距离(0-100)"></i>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="bold" class="col-sm-4 col-form-label">Bold</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="bold">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="color" class="col-sm-4 col-form-label">Font Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fontFace" class="col-sm-4 col-form-label">Font</label>
+                                                <div class="col-sm-8">
+                                                    <input list="fontFaces" name="fontFace" /></label>
+                                                    <datalist id="fontFaces">
+                                                    </datalist>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fontSize" class="col-sm-4 col-form-label">Font Size
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="fontSize" placeholder="48">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="charSpacing" class="col-sm-4 col-form-label">Char Spacing
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="charSpacing" placeholder="2">
+                                                    <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip"
+                                                        title="文本间距"></i>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasGlow" class="col-sm-4 col-form-label">Has Glow</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasGlow">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="glow-size" class="col-sm-4 col-form-label">Glow Size
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="glow-size" placeholder="5">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="glow-color" class="col-sm-4 col-form-label">Glow
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="glow-color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasOutline" class="col-sm-4 col-form-label">Has
+                                                    Outline</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasOutline">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="outline-size" class="col-sm-4 col-form-label">Outline Weight
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="outline-size" placeholder="1">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="outline-color" class="col-sm-4 col-form-label">Outline
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="outline-color" value="#000000"
+                                                        data-coloris>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasShadow" class="col-sm-4 col-form-label">Has
+                                                    Shadow</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasShadow">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-type" class="col-sm-4 col-form-label">Shadow
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    <select name="shadow-type">
+                                                        <option value="outer">outer</option>
+                                                        <option value="inner">inner</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-color" class="col-sm-4 col-form-label">Shadow
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="shadow-color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-blur" class="col-sm-4 col-form-label">Shadow Blur
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-blur" placeholder="3">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-offset" class="col-sm-4 col-form-label">Shadow Offset
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-offset" placeholder="3">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-angle" class="col-sm-4 col-form-label">Shadow Angle
+                                                    (°)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-angle" placeholder="45">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-opacity" class="col-sm-4 col-form-label">Shadow
+                                                    Opacity
+                                                    (°)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" min="0" max="1" step="0.1"
+                                                        name="shadow-opacity" placeholder="0.5">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <label for="y-upper" class="col-sm-4 col-form-label">Upper Y(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="y-upper" placeholder="10">
-                                                <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip" title="文本框与上边框之间的距离(0-100)"></i>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="y-lower" class="col-sm-4 col-form-label">Lower Y(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="y-lower" placeholder="10">
-                                                <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip" title="文本框与上边框之间的距离(0-100)"></i>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="bold" class="col-sm-4 col-form-label">Bold</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="bold">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="color" class="col-sm-4 col-form-label">Font Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fontFace" class="col-sm-4 col-form-label">Font</label>
-                                            <div class="col-sm-8">
-                                                <input list="fontFaces" name="fontFace" /></label>
-                                                <datalist id="fontFaces">
-                                                </datalist>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fontSize" class="col-sm-4 col-form-label">Font Size (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="fontSize" placeholder="48">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="charSpacing" class="col-sm-4 col-form-label">Char Spacing
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="charSpacing" placeholder="2">
-                                                <i class="fa-solid fa-circle-info ml-2" data-toggle="tooltip" title="文本间距"></i>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasGlow" class="col-sm-4 col-form-label">Has Glow</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasGlow">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="glow-size" class="col-sm-4 col-form-label">Glow Size
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="glow-size" placeholder="5">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="glow-color" class="col-sm-4 col-form-label">Glow Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="glow-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasOutline" class="col-sm-4 col-form-label">Has Outline</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasOutline">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="outline-size" class="col-sm-4 col-form-label">Outline Weight
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="outline-size" placeholder="1">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="outline-color" class="col-sm-4 col-form-label">Outline
-                                                Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="outline-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasShadow" class="col-sm-4 col-form-label">Has Shadow</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasShadow">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-type" class="col-sm-4 col-form-label">Shadow Type</label>
-                                            <div class="col-sm-8">
-                                                <select name="shadow-type">
-                                                    <option value="outer">outer</option>
-                                                    <option value="inner">inner</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-color" class="col-sm-4 col-form-label">Shadow
-                                                Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="shadow-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-blur" class="col-sm-4 col-form-label">Shadow Blur
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-blur" placeholder="3">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-offset" class="col-sm-4 col-form-label">Shadow Offset
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-offset" placeholder="3">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-angle" class="col-sm-4 col-form-label">Shadow Angle
-                                                (°)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-angle" placeholder="45">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-opacity" class="col-sm-4 col-form-label">Shadow Opacity
-                                                (°)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" min="0" max="1" step="0.1" name="shadow-opacity"
-                                                    placeholder="0.5">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
 
+                                </div>
+                                <div class="col-md-6 col-sm-12 mt-md-2 mt-sm-3">
+                                    <hr class="d-sm-block d-md-none">
+                                    <span>副内容属性</span>
+                                    <hr>
+                                    <form action="post" id="secondarySettings">
+                                        <div class="container-fluid p-0">
+                                            <div class="row">
+                                                <label for="x" class="col-sm-4 col-form-label">X(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" id="x" name="x" placeholder="0">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="y-upper" class="col-sm-4 col-form-label">Upper Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="y-upper" placeholder="10">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="y-lower" class="col-sm-4 col-form-label">Lower Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="y-lower" placeholder="10">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="bold" class="col-sm-4 col-form-label">Bold</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="bold">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="color" class="col-sm-4 col-form-label">Font Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fontFace" class="col-sm-4 col-form-label">Font</label>
+                                                <div class="col-sm-8">
+                                                    <input list="fontFaces" name="fontFace" /></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fontSize" class="col-sm-4 col-form-label">Font Size
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="fontSize" placeholder="48">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="charSpacing" class="col-sm-4 col-form-label">Char Spacing
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="charSpacing" placeholder="2">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasGlow" class="col-sm-4 col-form-label">Has Glow</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasGlow">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="glow-size" class="col-sm-4 col-form-label">Glow Size
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="glow-size" placeholder="5">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="glow-color" class="col-sm-4 col-form-label">Glow
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="glow-color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasOutline" class="col-sm-4 col-form-label">Has
+                                                    Outline</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasOutline">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="outline-size" class="col-sm-4 col-form-label">Outline Weight
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="outline-size" placeholder="1">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="outline-color" class="col-sm-4 col-form-label">Outline
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="outline-color" value="#000000"
+                                                        data-coloris>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <label for="hasShadow" class="col-sm-4 col-form-label">Has
+                                                    Shadow</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" name="hasShadow">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-type" class="col-sm-4 col-form-label">Shadow
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    <select name="shadow-type">
+                                                        <option value="outer">outer</option>
+                                                        <option value="inner">inner</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-color" class="col-sm-4 col-form-label">Shadow
+                                                    Color</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="shadow-color" value="#000000" data-coloris>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-blur" class="col-sm-4 col-form-label">Shadow Blur
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-blur" placeholder="3">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-offset" class="col-sm-4 col-form-label">Shadow Offset
+                                                    (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-offset" placeholder="3">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-angle" class="col-sm-4 col-form-label">Shadow Angle
+                                                    (°)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="shadow-angle" placeholder="45">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="shadow-opacity" class="col-sm-4 col-form-label">Shadow
+                                                    Opacity
+                                                    (°)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" min="0" max="1" step="0.1"
+                                                        name="shadow-opacity" placeholder="0.5">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
 
-                            <div class="col-md-6 col-sm-12">
-                                <span>副内容属性</span>
-                                <hr>
-                                <form action="post" id="secondarySettings">
-                                    <div class="container-fluid p-0">
-                                        <div class="row">
-                                            <label for="x" class="col-sm-4 col-form-label">X(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" id="x" name="x" placeholder="0">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="y-upper" class="col-sm-4 col-form-label">Upper Y(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="y-upper" placeholder="10">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="y-lower" class="col-sm-4 col-form-label">Lower Y(%)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="y-lower" placeholder="10">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="bold" class="col-sm-4 col-form-label">Bold</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="bold">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="color" class="col-sm-4 col-form-label">Font Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fontFace" class="col-sm-4 col-form-label">Font</label>
-                                            <div class="col-sm-8">
-                                                <input list="fontFaces" name="fontFace" /></label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fontSize" class="col-sm-4 col-form-label">Font Size (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="fontSize" placeholder="48">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="charSpacing" class="col-sm-4 col-form-label">Char Spacing
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="charSpacing" placeholder="2">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasGlow" class="col-sm-4 col-form-label">Has Glow</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasGlow">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="glow-size" class="col-sm-4 col-form-label">Glow Size
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="glow-size" placeholder="5">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="glow-color" class="col-sm-4 col-form-label">Glow Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="glow-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasOutline" class="col-sm-4 col-form-label">Has Outline</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasOutline">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="outline-size" class="col-sm-4 col-form-label">Outline Weight
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="outline-size" placeholder="1">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="outline-color" class="col-sm-4 col-form-label">Outline
-                                                Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="outline-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <label for="hasShadow" class="col-sm-4 col-form-label">Has Shadow</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="hasShadow">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-type" class="col-sm-4 col-form-label">Shadow Type</label>
-                                            <div class="col-sm-8">
-                                                <select name="shadow-type">
-                                                    <option value="outer">outer</option>
-                                                    <option value="inner">inner</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-color" class="col-sm-4 col-form-label">Shadow
-                                                Color</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="shadow-color" value="#000000" data-coloris>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-blur" class="col-sm-4 col-form-label">Shadow Blur
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-blur" placeholder="3">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-offset" class="col-sm-4 col-form-label">Shadow Offset
-                                                (pt)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-offset" placeholder="3">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-angle" class="col-sm-4 col-form-label">Shadow Angle
-                                                (°)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" name="shadow-angle" placeholder="45">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="shadow-opacity" class="col-sm-4 col-form-label">Shadow Opacity
-                                                (°)</label>
-                                            <div class="col-sm-8">
-                                                <input type="number" min="0" max="1" step="0.1" name="shadow-opacity"
-                                                    placeholder="0.5">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
