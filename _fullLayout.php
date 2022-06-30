@@ -129,7 +129,6 @@
         }
 
         .form-group {
-          float: right;
           margin-top: 5px;
           margin-left: 21px;
           margin-bottom: 10px;
