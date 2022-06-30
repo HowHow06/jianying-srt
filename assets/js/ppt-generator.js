@@ -248,7 +248,6 @@ function onRestoreNormalDefaultOptionClick() {
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
     fontSize: 48,
-    outline: { size: "0", color: "FFFFFF" },
     shadow: {
       type: "outer",
       color: "000000",
