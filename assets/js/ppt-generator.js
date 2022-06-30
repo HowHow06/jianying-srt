@@ -4,6 +4,8 @@ const primaryElement = document.getElementById("input-text");
 const defaultSecondaryElement = document.getElementById("output-temp");
 const backgroundImageElement = document.getElementById("uploadBackgroundImage");
 const backgroundColorElement = document.getElementById("colorPickerBackground");
+const primaryFormElement = document.getElementById("primarySettings");
+const secondaryFormElement = document.getElementById("secondarySettings");
 const advancedPrimaryOptionElement = document.getElementById(
   "txt-advanced-primary-options"
 );
@@ -279,6 +281,7 @@ function onRestoreNormalDefaultOptionClick() {
     charSpacing: 0,
   };
   setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
+  populateSettings(primaryDefaultOption, secondaryDefaultOption);
 }
 
 function onRestoreGreenScreenDefaultOptionClick() {
@@ -323,6 +326,7 @@ function onRestoreGreenScreenDefaultOptionClick() {
     charSpacing: 0,
   };
   setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
+  populateSettings(primaryDefaultOption, secondaryDefaultOption);
 }
 
 function setAdvancedSettings(primaryOption, secondaryOption) {
@@ -390,6 +394,231 @@ function onExportSettingClick() {
   document.body.removeChild(link);
 }
 
+function populateFontFaceList({
+  dataListId = "fontFaces",
+  filePath = "/assets/data/fontFaceList.csv",
+}) {
+  const host = self.location.host;
+  let endpoint = host;
+  if (host === "localhost:8080") {
+    endpoint = `${self.location.host}/${self.location.pathname.split("/")[1]}`; //for dev purpose
+  }
+
+  var requestURL = `http://${endpoint}${filePath}`;
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = process;
+  xhr.open("GET", requestURL, false);
+  xhr.send();
+
+  function process() {
+    if (xhr.readyState == 4) {
+      const dataListElement = document.querySelector(`#${dataListId}`);
+      const fontFaces = xhr.responseText.split(",");
+
+      fontFaces.forEach(function (item) {
+        var option = document.createElement("option");
+        option.value = item;
+        dataListElement.appendChild(option);
+      });
+    }
+  }
+}
+
+function initializeSettings() {
+  const customPrimaryOption = GetCustomPrimaryOption();
+  const customSecondaryOption = GetCustomSecondaryOption();
+  populateSettings(customPrimaryOption, customSecondaryOption);
+}
+
+function populateSettings(primaryOption, secondaryOption) {
+  // set primary option
+  primaryFormElement.querySelector("input[name='x']").value =
+    primaryOption.x?.replace("%", "");
+  primaryFormElement.querySelector("input[name='y-upper']").value =
+    primaryOption.y?.upper?.replace("%", "");
+  primaryFormElement.querySelector("input[name='y-lower']").value =
+    primaryOption.y?.lower?.replace("%", "");
+  primaryFormElement.querySelector("input[name='bold']").checked =
+    primaryOption.bold;
+  primaryFormElement.querySelector("input[name='color']").value =
+    "#" + primaryOption.color ?? "FFFFFF";
+  primaryFormElement.querySelector("input[name='fontFace']").value =
+    primaryOption.fontFace;
+  primaryFormElement.querySelector("input[name='fontSize']").value =
+    primaryOption.fontSize;
+  primaryFormElement.querySelector("input[name='charSpacing']").value =
+    primaryOption.charSpacing;
+  primaryFormElement.querySelector("input[name='hasGlow']").checked =
+    primaryOption.glow;
+  primaryFormElement.querySelector("input[name='glow-size']").value =
+    primaryOption.glow?.size;
+  primaryFormElement.querySelector("input[name='glow-color']").value =
+    "#" + (primaryOption.glow?.color ?? "000000");
+
+  primaryFormElement.querySelector("input[name='hasOutline']").checked =
+    primaryOption.outline;
+  primaryFormElement.querySelector("input[name='outline-size']").value =
+    primaryOption.outline?.size;
+  primaryFormElement.querySelector("input[name='outline-color']").value =
+    "#" + (primaryOption.outline?.color ?? "000000");
+
+  primaryFormElement.querySelector("input[name='hasShadow']").checked =
+    primaryOption.shadow;
+  primaryFormElement.querySelector("select[name='shadow-type']").value =
+    primaryOption.shadow?.type;
+  primaryFormElement.querySelector("input[name='shadow-color']").value =
+    "#" + (primaryOption.shadow?.color ?? "000000");
+  primaryFormElement.querySelector("input[name='shadow-blur']").value =
+    primaryOption.shadow?.blur;
+  primaryFormElement.querySelector("input[name='shadow-offset']").value =
+    primaryOption.shadow?.offset;
+  primaryFormElement.querySelector("input[name='shadow-angle']").value =
+    primaryOption.shadow?.angle;
+  primaryFormElement.querySelector("input[name='shadow-opacity']").value =
+    primaryOption.shadow?.opacity;
+
+  // set secondary option
+  secondaryFormElement.querySelector("input[name='x']").value =
+    secondaryOption.x?.replace("%", "");
+  secondaryFormElement.querySelector("input[name='y-upper']").value =
+    secondaryOption.y?.upper?.replace("%", "");
+  secondaryFormElement.querySelector("input[name='y-lower']").value =
+    secondaryOption.y?.lower?.replace("%", "");
+  secondaryFormElement.querySelector("input[name='bold']").checked =
+    secondaryOption.bold;
+  secondaryFormElement.querySelector("input[name='color']").value =
+    "#" + secondaryOption.color ?? "FFFFFF";
+  secondaryFormElement.querySelector("input[name='fontFace']").value =
+    secondaryOption.fontFace;
+  secondaryFormElement.querySelector("input[name='fontSize']").value =
+    secondaryOption.fontSize;
+  secondaryFormElement.querySelector("input[name='charSpacing']").value =
+    secondaryOption.charSpacing;
+  secondaryFormElement.querySelector("input[name='hasGlow']").checked =
+    secondaryOption.glow;
+  secondaryFormElement.querySelector("input[name='glow-size']").value =
+    secondaryOption.glow?.size;
+  secondaryFormElement.querySelector("input[name='glow-color']").value =
+    "#" + (secondaryOption.glow?.color ?? "000000");
+
+  secondaryFormElement.querySelector("input[name='hasOutline']").checked =
+    secondaryOption.outline;
+  secondaryFormElement.querySelector("input[name='outline-size']").value =
+    secondaryOption.outline?.size;
+  secondaryFormElement.querySelector("input[name='outline-color']").value =
+    "#" + (secondaryOption.outline?.color ?? "000000");
+
+  secondaryFormElement.querySelector("input[name='hasShadow']").checked =
+    secondaryOption.shadow;
+  secondaryFormElement.querySelector("select[name='shadow-type']").value =
+    secondaryOption.shadow?.type;
+  secondaryFormElement.querySelector("input[name='shadow-color']").value =
+    "#" + (secondaryOption.shadow?.color ?? "000000");
+  secondaryFormElement.querySelector("input[name='shadow-blur']").value =
+    secondaryOption.shadow?.blur;
+  secondaryFormElement.querySelector("input[name='shadow-offset']").value =
+    secondaryOption.shadow?.offset;
+  secondaryFormElement.querySelector("input[name='shadow-angle']").value =
+    secondaryOption.shadow?.angle;
+  secondaryFormElement.querySelector("input[name='shadow-opacity']").value =
+    secondaryOption.shadow?.opacity;
+}
+
+function onApplySettingsClick() {
+  let formData = new FormData(primaryFormElement);
+
+  let primaryOption = {
+    x: `${formData.get("x")}%`,
+    y: {
+      upper: `${formData.get("y-upper")}%`,
+      lower: `${formData.get("y-lower")}%`,
+    },
+    bold: !!formData.get("bold"),
+    color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
+    fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
+    fontSize: formData.get("fontSize") ?? 48,
+    charSpacing: formData.get("charSpacing") ?? 2,
+  };
+  if (formData.get("hasGlow")) {
+    primaryOption = {
+      ...primaryOption,
+      glow: {
+        size: formData.get("glow-size") ?? 5,
+        color: formData.get("glow-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasOutline")) {
+    primaryOption = {
+      ...primaryOption,
+      outline: {
+        size: formData.get("outline-size") ?? 1,
+        color: formData.get("outline-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasShadow")) {
+    primaryOption = {
+      ...primaryOption,
+      shadow: {
+        type: formData.get("shadow-type") ?? "outer",
+        color: formData.get("shadow-color")?.replace("#", "") ?? "000000",
+        blur: formData.get("shadow-blur") ?? 3,
+        offset: formData.get("shadow-offset") ?? 3,
+        angle: formData.get("shadow-angle") ?? 45,
+        opacity: formData.get("shadow-opacity") ?? "0.5",
+      },
+    };
+  }
+  formData = new FormData(secondaryFormElement);
+  let secondaryOption = {
+    x: `${formData.get("x")}%`,
+    y: {
+      upper: `${formData.get("y-upper")}%`,
+      lower: `${formData.get("y-lower")}%`,
+    },
+    bold: !!formData.get("bold"),
+    color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
+    fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
+    fontSize: formData.get("fontSize") ?? 48,
+    charSpacing: formData.get("charSpacing") ?? 2,
+  };
+  if (formData.get("hasGlow")) {
+    secondaryOption = {
+      ...secondaryOption,
+      glow: {
+        size: formData.get("glow-size") ?? 5,
+        color: formData.get("glow-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasOutline")) {
+    secondaryOption = {
+      ...secondaryOption,
+      outline: {
+        size: formData.get("outline-size") ?? 1,
+        color: formData.get("outline-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasShadow")) {
+    secondaryOption = {
+      ...secondaryOption,
+      shadow: {
+        type: formData.get("shadow-type") ?? "outer",
+        color: formData.get("shadow-color")?.replace("#", "") ?? "000000",
+        blur: formData.get("shadow-blur") ?? 3,
+        offset: formData.get("shadow-offset") ?? 3,
+        angle: formData.get("shadow-angle") ?? 45,
+        opacity: formData.get("shadow-opacity") ?? "0.5",
+      },
+    };
+  }
+
+  setAdvancedSettings(primaryOption, secondaryOption);
+  alert("Successfully applied setting");
+}
+
 (function () {
   var uploadElement = document.querySelector("#uploadSetting");
 
@@ -427,6 +656,11 @@ function onExportSettingClick() {
         importedSettings?.advancedPrimaryOption,
         importedSettings?.advancedSecondaryOption
       );
+
+      populateSettings(
+        importedSettings?.advancedPrimaryOption,
+        importedSettings?.advancedSecondaryOption
+      );
       // reset back to empty, else cannot uploading same file cannot trigger on change
       document.querySelector("#uploadSetting").value = "";
     };
@@ -438,4 +672,9 @@ function onExportSettingClick() {
 //set default settings
 $(document).ready(function () {
   onRestoreNormalDefaultOptionClick();
+  populateFontFaceList({
+    dataListId: "fontFaces",
+    filePath: "/assets/data/fontFaceList.csv",
+  });
+  initializeSettings();
 });
