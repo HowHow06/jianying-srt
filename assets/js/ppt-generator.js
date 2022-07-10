@@ -1,5 +1,5 @@
 // import PptxGenJS from "/jianying-srt/bundle/vendors/pptxgen/pptxgen.es.js";
-
+// also depend on sweetalert 2
 const primaryElement = document.getElementById("input-text");
 const defaultSecondaryElement = document.getElementById("output-temp");
 const backgroundImageElement = document.getElementById("uploadBackgroundImage");
@@ -39,7 +39,7 @@ const DEFAULT_TEXT_OPTION = {
   isTextBox: true,
 };
 
-function onGeneratePptClick() {
+async function onGeneratePptClick() {
   // Swal.fire({
   //   title: "Please Wait...",
   //   html: "Generating PPT...",
@@ -47,13 +47,48 @@ function onGeneratePptClick() {
   //     Swal.showLoading();
   //   },
   // });
+  if (!IsUiOptionTallyWithAdvancedOption()) {
+    const result = await Swal.fire({
+      title: "参数不一致",
+      html: "<p>设定(4)与高级设定(6)的参数不一致，<br/>需要应用最新的设定(4)吗？</p><br/><small>注：如选择不应用，生成PPT时将以高级设定(6)为准</small>",
+      icon: "question",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "应用",
+      denyButtonText: "不应用",
+      cancelButtonText: "取消生成",
+    });
+
+    if (result.isDismissed) {
+      return;
+    }
+    if (result.isConfirmed) {
+      onApplySettingsClick();
+    }
+    if (result.isDenied) {
+      Swal.fire("此生成将使用高级设定的参数", "", "info");
+    }
+  }
 
   const hasSecondaryContent = !document.getElementById(
     "chbHasIgnoreSecondaryContent"
   ).checked;
 
   generateFullPpt({ hasSecondaryContent: hasSecondaryContent });
-  // Swal.close();
+}
+
+function IsUiOptionTallyWithAdvancedOption() {
+  let formData = new FormData(primaryFormElement);
+  const primaryOption = GetUiOption(formData);
+  formData = new FormData(secondaryFormElement);
+  const secondaryOption = GetUiOption(formData);
+  const advancedPrimaryOption = GetCustomPrimaryOption();
+  const advancedSecondaryOption = GetCustomSecondaryOption();
+
+  return (
+    JSON.stringify(primaryOption) === JSON.stringify(advancedPrimaryOption) &&
+    JSON.stringify(secondaryOption) === JSON.stringify(advancedSecondaryOption)
+  );
 }
 
 // to convert file to data url
@@ -247,16 +282,16 @@ function onRestoreNormalDefaultOptionClick() {
     bold: true,
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
-    fontSize: 48,
+    fontSize: "48",
+    charSpacing: "2",
     shadow: {
       type: "outer",
       color: "000000",
-      blur: 3,
-      offset: 3,
-      angle: 45,
+      blur: "3",
+      offset: "3",
+      angle: "45",
       opacity: "0.5",
     },
-    charSpacing: 2,
   };
   const secondaryDefaultOption = {
     x: "0%",
@@ -267,17 +302,16 @@ function onRestoreNormalDefaultOptionClick() {
     bold: true,
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
-    fontSize: 24, //28 for national park
-    outline: { size: "0", color: "FFFFFF" },
+    fontSize: "24", //28 for national park
+    charSpacing: "0",
     shadow: {
       type: "outer",
       color: "000000",
-      blur: 3,
-      offset: 3,
-      angle: 45,
+      blur: "3",
+      offset: "3",
+      angle: "45",
       opacity: "0.5",
     },
-    charSpacing: 0,
   };
   setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
   populateSettings(primaryDefaultOption, secondaryDefaultOption);
@@ -523,99 +557,61 @@ function populateSettings(primaryOption, secondaryOption) {
     secondaryOption.shadow?.opacity;
 }
 
-function onApplySettingsClick() {
+async function onApplySettingsClick() {
   let formData = new FormData(primaryFormElement);
-
-  let primaryOption = {
-    x: `${formData.get("x")}%`,
-    y: {
-      upper: `${formData.get("y-upper")}%`,
-      lower: `${formData.get("y-lower")}%`,
-    },
-    bold: !!formData.get("bold"),
-    color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
-    fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
-    fontSize: formData.get("fontSize") ?? 48,
-    charSpacing: formData.get("charSpacing") ?? 2,
-  };
-  if (formData.get("hasGlow")) {
-    primaryOption = {
-      ...primaryOption,
-      glow: {
-        size: formData.get("glow-size") ?? 5,
-        color: formData.get("glow-color")?.replace("#", "") ?? "FFFFFF",
-      },
-    };
-  }
-  if (formData.get("hasOutline")) {
-    primaryOption = {
-      ...primaryOption,
-      outline: {
-        size: formData.get("outline-size") ?? 1,
-        color: formData.get("outline-color")?.replace("#", "") ?? "FFFFFF",
-      },
-    };
-  }
-  if (formData.get("hasShadow")) {
-    primaryOption = {
-      ...primaryOption,
-      shadow: {
-        type: formData.get("shadow-type") ?? "outer",
-        color: formData.get("shadow-color")?.replace("#", "") ?? "000000",
-        blur: formData.get("shadow-blur") ?? 3,
-        offset: formData.get("shadow-offset") ?? 3,
-        angle: formData.get("shadow-angle") ?? 45,
-        opacity: formData.get("shadow-opacity") ?? "0.5",
-      },
-    };
-  }
+  const primaryOption = GetUiOption(formData);
   formData = new FormData(secondaryFormElement);
-  let secondaryOption = {
-    x: `${formData.get("x")}%`,
-    y: {
-      upper: `${formData.get("y-upper")}%`,
-      lower: `${formData.get("y-lower")}%`,
-    },
-    bold: !!formData.get("bold"),
-    color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
-    fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
-    fontSize: formData.get("fontSize") ?? 48,
-    charSpacing: formData.get("charSpacing") ?? 2,
-  };
-  if (formData.get("hasGlow")) {
-    secondaryOption = {
-      ...secondaryOption,
-      glow: {
-        size: formData.get("glow-size") ?? 5,
-        color: formData.get("glow-color")?.replace("#", "") ?? "FFFFFF",
-      },
-    };
-  }
-  if (formData.get("hasOutline")) {
-    secondaryOption = {
-      ...secondaryOption,
-      outline: {
-        size: formData.get("outline-size") ?? 1,
-        color: formData.get("outline-color")?.replace("#", "") ?? "FFFFFF",
-      },
-    };
-  }
-  if (formData.get("hasShadow")) {
-    secondaryOption = {
-      ...secondaryOption,
-      shadow: {
-        type: formData.get("shadow-type") ?? "outer",
-        color: formData.get("shadow-color")?.replace("#", "") ?? "000000",
-        blur: formData.get("shadow-blur") ?? 3,
-        offset: formData.get("shadow-offset") ?? 3,
-        angle: formData.get("shadow-angle") ?? 45,
-        opacity: formData.get("shadow-opacity") ?? "0.5",
-      },
-    };
-  }
+  const secondaryOption = GetUiOption(formData);
 
   setAdvancedSettings(primaryOption, secondaryOption);
-  alert("Successfully applied setting");
+  await Swal.fire("成功应用设定", "", "success");
+}
+
+function GetUiOption(formData) {
+  let option = {
+    x: `${formData.get("x")}%`,
+    y: {
+      upper: `${formData.get("y-upper")}%`,
+      lower: `${formData.get("y-lower")}%`,
+    },
+    bold: !!formData.get("bold"),
+    color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
+    fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
+    fontSize: formData.get("fontSize") ?? 48,
+    charSpacing: formData.get("charSpacing") ?? 2,
+  };
+  if (formData.get("hasGlow")) {
+    option = {
+      ...option,
+      glow: {
+        size: formData.get("glow-size") ?? 5,
+        color: formData.get("glow-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasOutline")) {
+    option = {
+      ...option,
+      outline: {
+        size: formData.get("outline-size") ?? 1,
+        color: formData.get("outline-color")?.replace("#", "") ?? "FFFFFF",
+      },
+    };
+  }
+  if (formData.get("hasShadow")) {
+    option = {
+      ...option,
+      shadow: {
+        type: formData.get("shadow-type") ?? "outer",
+        color: formData.get("shadow-color")?.replace("#", "") ?? "000000",
+        blur: formData.get("shadow-blur") ?? 3,
+        offset: formData.get("shadow-offset") ?? 3,
+        angle: formData.get("shadow-angle") ?? 45,
+        opacity: formData.get("shadow-opacity") ?? "0.5",
+      },
+    };
+  }
+  return option;
 }
 
 (function () {
