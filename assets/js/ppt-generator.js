@@ -34,7 +34,7 @@ const DEFAULT_TEXT_OPTION = {
   bold: true,
   color: DEFAULT_FONT_COLOR,
   fontFace: "Microsoft Yahei",
-  fontSize: "48",
+  fontSize: "50",
   align: "center",
   isTextBox: true,
 };
@@ -282,7 +282,7 @@ function onRestoreNormalDefaultOptionClick() {
     bold: true,
     color: "FFFFFF",
     fontFace: "Microsoft Yahei",
-    fontSize: "48",
+    fontSize: "50",
     charSpacing: "2",
     shadow: {
       type: "outer",
@@ -577,7 +577,7 @@ function GetUiOption(formData) {
     bold: !!formData.get("bold"),
     color: formData.get("color")?.replace("#", "") ?? "FFFFFF",
     fontFace: formData.get("fontFace") ?? "Microsoft Yahei",
-    fontSize: formData.get("fontSize") ?? 48,
+    fontSize: formData.get("fontSize") ?? 50,
     charSpacing: formData.get("charSpacing") ?? 2,
   };
   if (formData.get("hasGlow")) {
