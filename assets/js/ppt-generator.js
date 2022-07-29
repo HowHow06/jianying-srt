@@ -73,8 +73,14 @@ async function onGeneratePptClick() {
   const hasSecondaryContent = !document.getElementById(
     "chbHasIgnoreSecondaryContent"
   ).checked;
+  const isOneLinePerSlide = document.getElementById(
+    "chbIsOneLinePerSlide"
+  ).checked;
 
-  generateFullPpt({ hasSecondaryContent: hasSecondaryContent });
+  generateFullPpt({
+    hasSecondaryContent: hasSecondaryContent,
+    linePerSlide: isOneLinePerSlide ? 1 : DEFAULT_LINE_COUNT_PER_ROW,
+  });
 }
 
 function IsUiOptionTallyWithAdvancedOption() {
@@ -102,8 +108,8 @@ function getBase64(file) {
 }
 
 // this function requires pptxgen library imported at the first place
-async function generateFullPpt({ hasSecondaryContent = true }) {
-  const linePerRow = DEFAULT_LINE_COUNT_PER_ROW;
+async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
+  const linePerRow = linePerSlide;
 
   const primaryLyric = primaryElement.value;
   const secondaryLyric = document.getElementById("outputPinyin")
