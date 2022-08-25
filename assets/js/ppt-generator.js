@@ -20,6 +20,7 @@ const DEFAULT_TITLE = "PPT Generator Presentation";
 const DEFAULT_PPT_LAYOUT = "LAYOUT_16x9";
 const DEFAULT_LINE_COUNT_PER_ROW = 2;
 const LYRIC_POSITION = {
+  COVER: "cover",
   UPPER: "upper",
   LOWER: "lower",
 };
@@ -28,7 +29,7 @@ const LYRIC_TYPE = {
   SECONDARY: "secondary",
 };
 
-const DEFAULT_TEXT_OPTION = {
+const DEFAULT_BASE_OPTION = {
   x: "0%",
   w: "100%",
   bold: true,
@@ -37,6 +38,113 @@ const DEFAULT_TEXT_OPTION = {
   fontSize: "50",
   align: "center",
   isTextBox: true,
+};
+
+const DEFAULT_OPTION = {
+  NORMAL: {
+    PRIMARY: {
+      x: "0%",
+      y: {
+        upper: "26%",
+        lower: "56%",
+      },
+      cover: {
+        y: "30%",
+        fontSize: "80",
+        fontFace: "Microsoft Yahei",
+      },
+      bold: true,
+      color: "FFFFFF",
+      fontFace: "Microsoft Yahei",
+      fontSize: "60",
+      charSpacing: "2",
+      shadow: {
+        type: "outer",
+        color: "000000",
+        blur: "3",
+        offset: "3",
+        angle: "45",
+        opacity: "0.5",
+      },
+    },
+    SECONDARY: {
+      x: "0%",
+      y: {
+        upper: "39%",
+        lower: "69%",
+      },
+      cover: {
+        y: "50%",
+        fontSize: "48",
+        fontFace: "Microsoft Yahei",
+      },
+      bold: true,
+      color: "FFFFFF",
+      fontFace: "Microsoft Yahei",
+      fontSize: "31",
+      charSpacing: "0",
+      shadow: {
+        type: "outer",
+        color: "000000",
+        blur: "3",
+        offset: "3",
+        angle: "45",
+        opacity: "0.5",
+      },
+    },
+  },
+  LIVE: {
+    PRIMARY: {
+      x: "0%",
+      y: {
+        upper: "84%",
+        lower: "55%",
+      },
+      cover: {
+        y: "84%",
+        fontSize: "34",
+        fontFace: "Microsoft Yahei",
+      },
+      bold: true,
+      color: "FFFFFF",
+      fontFace: "Microsoft Yahei",
+      fontSize: "30",
+      charSpacing: "2",
+      shadow: {
+        type: "outer",
+        color: "000000",
+        blur: "3",
+        offset: "3",
+        angle: "45",
+        opacity: "0.5",
+      },
+    },
+    SECONDARY: {
+      x: "0%",
+      y: {
+        upper: "92%",
+        lower: "65%",
+      },
+      cover: {
+        y: "92%",
+        fontSize: "20",
+        fontFace: "Segoe Print",
+      },
+      bold: true,
+      color: "FFFFFF",
+      fontFace: "Microsoft Yahei",
+      fontSize: "18",
+      charSpacing: "0",
+      shadow: {
+        type: "outer",
+        color: "000000",
+        blur: "3",
+        offset: "3",
+        angle: "45",
+        opacity: "0.5",
+      },
+    },
+  },
 };
 
 async function onGeneratePptClick() {
@@ -85,9 +193,9 @@ async function onGeneratePptClick() {
 
 function IsUiOptionTallyWithAdvancedOption() {
   let formData = new FormData(primaryFormElement);
-  const primaryOption = GetUiOption(formData);
+  const primaryOption = getUiOption(formData);
   formData = new FormData(secondaryFormElement);
-  const secondaryOption = GetUiOption(formData);
+  const secondaryOption = getUiOption(formData);
   const advancedPrimaryOption = GetCustomPrimaryOption();
   const advancedSecondaryOption = GetCustomSecondaryOption();
 
@@ -110,6 +218,8 @@ function getBase64(file) {
 // this function requires pptxgen library imported at the first place
 async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
   const linePerRow = linePerSlide;
+  let coverCount = 0;
+  let sectionCount = 0;
 
   const primaryLyric = primaryElement.value;
   const secondaryLyric = document.getElementById("outputPinyin")
@@ -148,17 +258,47 @@ async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
   const customPrimaryOption = GetCustomPrimaryOption();
   const customSecondaryOption = GetCustomSecondaryOption();
 
+  let currentSection = "";
   // 3. Create Slides
   primaryLinesArray.forEach((primaryLine, index) => {
-    let slide = GetWorkingSlide({ pres, currentIndex: index, linePerRow });
+    const isCover = primaryLine.startsWith("# ");
+    const isSectionLine = primaryLine.startsWith("--- ");
 
-    const currentLyricPosition =
-      index % linePerRow == 0 ? LYRIC_POSITION.UPPER : LYRIC_POSITION.LOWER;
+    if (isSectionLine) {
+      sectionCount++;
+      const sectionName = primaryLine.replace("--- ", "");
+      currentSection = sectionName;
+      pres.addSection({ title: sectionName });
+      return;
+    }
+
+    let currentLine = primaryLine;
+    const currentIndex = index - coverCount - sectionCount;
+
+    if (isCover) {
+      coverCount++;
+      const regex = /^#[^#]*/;
+      currentLine = currentLine.match(regex)[0].replace("# ", "").trim();
+    }
+
+    let slide = GetWorkingSlide({
+      pres,
+      currentIndex,
+      linePerRow,
+      isCover,
+      ...(currentSection && { currentSection }),
+    });
+
+    const currentLyricPosition = isCover
+      ? LYRIC_POSITION.COVER
+      : currentIndex % linePerRow == 0
+      ? LYRIC_POSITION.UPPER
+      : LYRIC_POSITION.LOWER;
 
     // add primary content
-    AddLyricToSlide({
+    AddTextLineToSlide({
       slide,
-      line: primaryLine,
+      line: currentLine,
       type: LYRIC_TYPE.PRIMARY,
       lyricPosition: currentLyricPosition,
       primaryOption: customPrimaryOption,
@@ -167,9 +307,21 @@ async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
 
     if (hasSecondaryContent) {
       //add secondary content
-      AddLyricToSlide({
+      let secondaryLine = secondaryLinesArray[index] ?? "";
+      if (isCover) {
+        secondaryLine = secondaryLine.replace("# ", "");
+
+        const subCoverLineIndex = secondaryLine.indexOf("## ");
+        const hasSubCoverLine = subCoverLineIndex != -1;
+
+        if (hasSubCoverLine) {
+          secondaryLine = secondaryLine.substring(subCoverLineIndex + 3);
+        }
+      }
+
+      AddTextLineToSlide({
         slide,
-        line: secondaryLinesArray[index] ?? "",
+        line: secondaryLine,
         type: LYRIC_TYPE.SECONDARY,
         lyricPosition: currentLyricPosition,
         primaryOption: customPrimaryOption,
@@ -222,16 +374,25 @@ function GetCustomSecondaryOption() {
   return option;
 }
 
-function GetWorkingSlide({ pres, currentIndex, linePerRow }) {
+function GetWorkingSlide({
+  pres,
+  currentIndex,
+  linePerRow,
+  isCover,
+  currentSection,
+}) {
   const remainder = currentIndex % linePerRow; //create new slide if remainder is 0
-  if (remainder === 0) {
-    return pres.addSlide({ masterName: "MASTER_SLIDE" });
+  if (remainder === 0 || isCover) {
+    return pres.addSlide({
+      masterName: "MASTER_SLIDE",
+      ...(currentSection && { sectionTitle: currentSection }),
+    });
   }
   const slidesCount = pres.slides.length;
   return pres.getSlide(slidesCount);
 }
 
-function AddLyricToSlide({
+function AddTextLineToSlide({
   slide,
   line,
   type = LYRIC_TYPE.PRIMARY,
@@ -239,30 +400,29 @@ function AddLyricToSlide({
   primaryOption,
   secondaryOption,
 }) {
-  let customOption;
-  if (type == LYRIC_TYPE.PRIMARY) {
-    const customYValue =
-      lyricPosition == LYRIC_POSITION.UPPER
-        ? primaryOption.y?.upper
-        : primaryOption.y?.lower;
+  const isUpper = lyricPosition == LYRIC_POSITION.UPPER;
+  const isCover = lyricPosition == LYRIC_POSITION.COVER;
+  const isTypePrimary = type == LYRIC_TYPE.PRIMARY;
+  const isTypeSecondary = type == LYRIC_TYPE.SECONDARY;
+  let customOption = isTypePrimary ? primaryOption : secondaryOption;
+  let customValues = {};
 
-    customOption = {
-      ...primaryOption,
-      y: customYValue,
-    };
-  } else if (type == LYRIC_TYPE.SECONDARY) {
-    const customYValue =
-      lyricPosition == LYRIC_POSITION.UPPER
-        ? secondaryOption.y?.upper
-        : secondaryOption.y?.lower;
+  customValues = {
+    y: isUpper ? customOption.y?.upper : customOption.y?.lower,
+  };
 
-    customOption = {
-      ...secondaryOption,
-      y: customYValue,
+  if (isCover) {
+    customValues = {
+      ...customValues,
+      ...(customOption.cover || {}),
     };
   }
 
-  const finalOption = { ...DEFAULT_TEXT_OPTION, ...customOption };
+  customOption = {
+    ...customOption,
+    ...customValues,
+  };
+  const finalOption = { ...DEFAULT_BASE_OPTION, ...customOption };
   // had to do like below because somehow the shadow value cannot be parsed correctly
 
   slide.addText(line, {
@@ -279,93 +439,22 @@ function AddLyricToSlide({
 }
 
 function onRestoreNormalDefaultOptionClick() {
-  const primaryDefaultOption = {
-    x: "0%",
-    y: {
-      upper: "27%",
-      lower: "55%",
-    },
-    bold: true,
-    color: "FFFFFF",
-    fontFace: "Microsoft Yahei",
-    fontSize: "50",
-    charSpacing: "2",
-    shadow: {
-      type: "outer",
-      color: "000000",
-      blur: "3",
-      offset: "3",
-      angle: "45",
-      opacity: "0.5",
-    },
-  };
-  const secondaryDefaultOption = {
-    x: "0%",
-    y: {
-      upper: "37%",
-      lower: "65%",
-    },
-    bold: true,
-    color: "FFFFFF",
-    fontFace: "Microsoft Yahei",
-    fontSize: "24", //28 for national park
-    charSpacing: "0",
-    shadow: {
-      type: "outer",
-      color: "000000",
-      blur: "3",
-      offset: "3",
-      angle: "45",
-      opacity: "0.5",
-    },
-  };
-  setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
-  populateSettings(primaryDefaultOption, secondaryDefaultOption);
+  setAdvancedSettings(
+    DEFAULT_OPTION.NORMAL.PRIMARY,
+    DEFAULT_OPTION.NORMAL.SECONDARY
+  );
+  populateSettings(
+    DEFAULT_OPTION.NORMAL.PRIMARY,
+    DEFAULT_OPTION.NORMAL.SECONDARY
+  );
 }
 
 function onRestoreGreenScreenDefaultOptionClick() {
-  const primaryDefaultOption = {
-    x: "0%",
-    y: {
-      upper: "84%",
-      lower: "55%",
-    },
-    bold: true,
-    color: "FFFFFF",
-    fontFace: "Microsoft Yahei",
-    fontSize: 30,
-    shadow: {
-      type: "outer",
-      color: "000000",
-      blur: 3,
-      offset: 3,
-      angle: 45,
-      opacity: "0.5",
-    },
-    charSpacing: 2,
-  };
-  const secondaryDefaultOption = {
-    x: "0%",
-    y: {
-      upper: "92%",
-      lower: "65%",
-    },
-    bold: true,
-    color: "FFFFFF",
-    fontFace: "Microsoft Yahei",
-    fontSize: 18,
-    shadow: {
-      type: "outer",
-      color: "000000",
-      blur: 3,
-      offset: 3,
-      angle: 45,
-      opacity: "0.5",
-    },
-    charSpacing: 0,
-  };
-  setAdvancedSettings(primaryDefaultOption, secondaryDefaultOption);
-  populateSettings(primaryDefaultOption, secondaryDefaultOption);
+  setAdvancedSettings(
+    DEFAULT_OPTION.LIVE.PRIMARY,
+    DEFAULT_OPTION.LIVE.SECONDARY
+  );
+  populateSettings(DEFAULT_OPTION.LIVE.PRIMARY, DEFAULT_OPTION.LIVE.SECONDARY);
 }
 
 function setAdvancedSettings(primaryOption, secondaryOption) {
@@ -470,115 +559,83 @@ function initializeSettings() {
 }
 
 function populateSettings(primaryOption, secondaryOption) {
-  // set primary option
-  primaryFormElement.querySelector("input[name='x']").value =
-    primaryOption.x?.replace("%", "");
-  primaryFormElement.querySelector("input[name='y-upper']").value =
-    primaryOption.y?.upper?.replace("%", "");
-  primaryFormElement.querySelector("input[name='y-lower']").value =
-    primaryOption.y?.lower?.replace("%", "");
-  primaryFormElement.querySelector("input[name='bold']").checked =
-    primaryOption.bold;
-  primaryFormElement.querySelector("input[name='color']").value =
-    "#" + primaryOption.color ?? "FFFFFF";
-  primaryFormElement.querySelector("input[name='fontFace']").value =
-    primaryOption.fontFace;
-  primaryFormElement.querySelector("input[name='fontSize']").value =
-    primaryOption.fontSize;
-  primaryFormElement.querySelector("input[name='charSpacing']").value =
-    primaryOption.charSpacing;
-  primaryFormElement.querySelector("input[name='hasGlow']").checked =
-    primaryOption.glow;
-  primaryFormElement.querySelector("input[name='glow-size']").value =
-    primaryOption.glow?.size;
-  primaryFormElement.querySelector("input[name='glow-color']").value =
-    "#" + (primaryOption.glow?.color ?? "000000");
+  for (let index = 0; index < 2; index++) {
+    const formElement = index === 0 ? primaryFormElement : secondaryFormElement;
+    const option = index === 0 ? primaryOption : secondaryOption;
+    formElement.querySelector("input[name='x']").value = option.x?.replace(
+      "%",
+      ""
+    );
+    formElement.querySelector("input[name='y-upper']").value =
+      option.y?.upper?.replace("%", "");
+    formElement.querySelector("input[name='y-lower']").value =
+      option.y?.lower?.replace("%", "");
+    formElement.querySelector("input[name='bold']").checked = option.bold;
+    formElement.querySelector("input[name='color']").value =
+      "#" + option.color ?? "FFFFFF";
+    formElement.querySelector("input[name='fontFace']").value = option.fontFace;
+    formElement.querySelector("input[name='fontSize']").value = option.fontSize;
+    formElement.querySelector("input[name='charSpacing']").value =
+      option.charSpacing;
 
-  primaryFormElement.querySelector("input[name='hasOutline']").checked =
-    primaryOption.outline;
-  primaryFormElement.querySelector("input[name='outline-size']").value =
-    primaryOption.outline?.size;
-  primaryFormElement.querySelector("input[name='outline-color']").value =
-    "#" + (primaryOption.outline?.color ?? "000000");
+    formElement.querySelector("input[name='cover-y']").value =
+      option.cover?.y?.replace("%", "");
+    formElement.querySelector("input[name='cover-fontFace']").value =
+      option.cover?.fontFace || "";
+    formElement.querySelector("input[name='cover-fontSize']").value =
+      option.cover?.fontSize;
 
-  primaryFormElement.querySelector("input[name='hasShadow']").checked =
-    primaryOption.shadow;
-  primaryFormElement.querySelector("select[name='shadow-type']").value =
-    primaryOption.shadow?.type;
-  primaryFormElement.querySelector("input[name='shadow-color']").value =
-    "#" + (primaryOption.shadow?.color ?? "000000");
-  primaryFormElement.querySelector("input[name='shadow-blur']").value =
-    primaryOption.shadow?.blur;
-  primaryFormElement.querySelector("input[name='shadow-offset']").value =
-    primaryOption.shadow?.offset;
-  primaryFormElement.querySelector("input[name='shadow-angle']").value =
-    primaryOption.shadow?.angle;
-  primaryFormElement.querySelector("input[name='shadow-opacity']").value =
-    primaryOption.shadow?.opacity;
+    formElement.querySelector("input[name='hasGlow']").checked = option.glow;
+    formElement.querySelector("input[name='glow-size']").value =
+      option.glow?.size;
+    formElement.querySelector("input[name='glow-color']").value =
+      "#" + (option.glow?.color ?? "000000");
 
-  // set secondary option
-  secondaryFormElement.querySelector("input[name='x']").value =
-    secondaryOption.x?.replace("%", "");
-  secondaryFormElement.querySelector("input[name='y-upper']").value =
-    secondaryOption.y?.upper?.replace("%", "");
-  secondaryFormElement.querySelector("input[name='y-lower']").value =
-    secondaryOption.y?.lower?.replace("%", "");
-  secondaryFormElement.querySelector("input[name='bold']").checked =
-    secondaryOption.bold;
-  secondaryFormElement.querySelector("input[name='color']").value =
-    "#" + secondaryOption.color ?? "FFFFFF";
-  secondaryFormElement.querySelector("input[name='fontFace']").value =
-    secondaryOption.fontFace;
-  secondaryFormElement.querySelector("input[name='fontSize']").value =
-    secondaryOption.fontSize;
-  secondaryFormElement.querySelector("input[name='charSpacing']").value =
-    secondaryOption.charSpacing;
-  secondaryFormElement.querySelector("input[name='hasGlow']").checked =
-    secondaryOption.glow;
-  secondaryFormElement.querySelector("input[name='glow-size']").value =
-    secondaryOption.glow?.size;
-  secondaryFormElement.querySelector("input[name='glow-color']").value =
-    "#" + (secondaryOption.glow?.color ?? "000000");
+    formElement.querySelector("input[name='hasOutline']").checked =
+      option.outline;
+    formElement.querySelector("input[name='outline-size']").value =
+      option.outline?.size;
+    formElement.querySelector("input[name='outline-color']").value =
+      "#" + (option.outline?.color ?? "000000");
 
-  secondaryFormElement.querySelector("input[name='hasOutline']").checked =
-    secondaryOption.outline;
-  secondaryFormElement.querySelector("input[name='outline-size']").value =
-    secondaryOption.outline?.size;
-  secondaryFormElement.querySelector("input[name='outline-color']").value =
-    "#" + (secondaryOption.outline?.color ?? "000000");
-
-  secondaryFormElement.querySelector("input[name='hasShadow']").checked =
-    secondaryOption.shadow;
-  secondaryFormElement.querySelector("select[name='shadow-type']").value =
-    secondaryOption.shadow?.type;
-  secondaryFormElement.querySelector("input[name='shadow-color']").value =
-    "#" + (secondaryOption.shadow?.color ?? "000000");
-  secondaryFormElement.querySelector("input[name='shadow-blur']").value =
-    secondaryOption.shadow?.blur;
-  secondaryFormElement.querySelector("input[name='shadow-offset']").value =
-    secondaryOption.shadow?.offset;
-  secondaryFormElement.querySelector("input[name='shadow-angle']").value =
-    secondaryOption.shadow?.angle;
-  secondaryFormElement.querySelector("input[name='shadow-opacity']").value =
-    secondaryOption.shadow?.opacity;
+    formElement.querySelector("input[name='hasShadow']").checked =
+      option.shadow;
+    formElement.querySelector("select[name='shadow-type']").value =
+      option.shadow?.type;
+    formElement.querySelector("input[name='shadow-color']").value =
+      "#" + (option.shadow?.color ?? "000000");
+    formElement.querySelector("input[name='shadow-blur']").value =
+      option.shadow?.blur;
+    formElement.querySelector("input[name='shadow-offset']").value =
+      option.shadow?.offset;
+    formElement.querySelector("input[name='shadow-angle']").value =
+      option.shadow?.angle;
+    formElement.querySelector("input[name='shadow-opacity']").value =
+      option.shadow?.opacity;
+  }
 }
 
 async function onApplySettingsClick() {
   let formData = new FormData(primaryFormElement);
-  const primaryOption = GetUiOption(formData);
+  const primaryOption = getUiOption(formData);
   formData = new FormData(secondaryFormElement);
-  const secondaryOption = GetUiOption(formData);
+  const secondaryOption = getUiOption(formData);
 
   setAdvancedSettings(primaryOption, secondaryOption);
   await Swal.fire("成功应用设定", "", "success");
 }
 
-function GetUiOption(formData) {
+function getUiOption(formData) {
   let option = {
     x: `${formData.get("x")}%`,
     y: {
       upper: `${formData.get("y-upper")}%`,
       lower: `${formData.get("y-lower")}%`,
+    },
+    cover: {
+      y: `${formData.get("cover-y")}%`,
+      fontSize: formData.get("cover-fontSize") ?? "50",
+      fontFace: formData.get("cover-fontFace") ?? "Microsoft Yahei",
     },
     bold: !!formData.get("bold"),
     color: formData.get("color")?.replace("#", "") ?? "FFFFFF",

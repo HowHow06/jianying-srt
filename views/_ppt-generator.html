@@ -25,7 +25,7 @@
                                 <input type="file" accept="image/*" name="myFile" id="uploadBackgroundImage"
                                     class="drop-zone__input">
                             </div>
-                            <a href="./assets/img/greenscreenWithBlackCover.png" target="_blank">
+                            <a href="./assets/img/greenScreenWithBlackCover_v2.png" target="_blank">
                                 <i class="fa-solid fa-up-right-from-square"></i> 预设绿幕背景图
                             </a>
                         </div>
@@ -187,6 +187,25 @@
                                             </div>
                                             <hr>
                                             <div class="row">
+                                                <label for="cover-y" class="col-sm-4 col-form-label">Cover Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="cover-y" placeholder="10">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover Font</label>
+                                                <div class="col-sm-8">
+                                                    <input list="fontFaces" name="cover-fontFace" /></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font Size (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="cover-fontSize" placeholder="10">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
                                                 <label for="hasGlow" class="col-sm-4 col-form-label">Has Glow</label>
                                                 <div class="col-sm-8">
                                                     <input type="checkbox" name="hasGlow">
@@ -343,6 +362,26 @@
                                                     (pt)</label>
                                                 <div class="col-sm-8">
                                                     <input type="number" name="charSpacing" placeholder="2">
+                                                </div>
+                                            </div>
+                                            
+                                            <hr>
+                                            <div class="row">
+                                                <label for="cover-y" class="col-sm-4 col-form-label">Cover Y(%)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="cover-y" placeholder="10">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover Font</label>
+                                                <div class="col-sm-8">
+                                                    <input list="fontFaces" name="cover-fontFace" /></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font Size (pt)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="cover-fontSize" placeholder="10">
                                                 </div>
                                             </div>
                                             <hr>
@@ -525,6 +564,20 @@
                         <p>
                             注：生成PPT时将以高级设定为准
                         </p>
+                    </div>
+                </div>
+                <div class="kratos-hentry kratos-post-inner clearfix">
+                    <div class="kratos-post-content">
+                        <!-- 内容 -->
+                        <div>
+                            <!-- <a href="#advanced-setting">高级设定</a> -->
+                            <h3>7. 预设设定浏览</h3>
+                            <ul>
+                                <li><a href="./assets/storage/NewPptGeneratorSettingv3.json" target="_blank">普通预设</a></li>
+                                <li><a href="./assets/storage/EnglishOnlyv2.json" target="_blank">英文普通预设</a></li>
+                                <li><a href="./assets/storage/EnglishOnlyLivev2.json" target="_blank">英文绿幕预设</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </article>
