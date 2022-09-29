@@ -97,20 +97,34 @@
 
                         <div class="d-flex justify-content-between my-2">
                             <div>
-                                <button type="button" class="btn-custom" onclick="onRestoreNormalDefaultOptionClick()">
-                                    普通预设
+                                <button class="btn-custom dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    选择预设设定
                                 </button>
-                                <button type="button" class="btn-custom"
-                                    onclick="onRestoreGreenScreenDefaultOptionClick()">
-                                    绿幕预设
-                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <button type="button" class="dropdown-item cursor-pointer"
+                                        onclick="onRestoreNormalDefaultOptionClick()">
+                                        普通预设
+                                    </button>
+                                    <button type="button" class="dropdown-item cursor-pointer"
+                                        onclick="onRestoreGreenScreenDefaultOptionClick()">
+                                        绿幕预设
+                                    </button>
+                                    <button type="button" class="dropdown-item cursor-pointer"
+                                        onclick="readSettingsFileFromURL('./assets/storage/EnglishOnlyv2.json')">
+                                        普通:英文
+                                    </button>
+                                    <button type="button" class="dropdown-item cursor-pointer"
+                                        onclick="readSettingsFileFromURL('./assets/storage/EnglishOnlyLivev2.json')">
+                                        绿幕:英文
+                                    </button>
+                                </div>
                             </div>
                             <div>
                                 <label class="custom-file-upload cursor-pointer onhover-underline default-anchor">
                                     <input type="file" class="d-none" id="uploadSetting" />
                                     导入设定
                                 </label>
-
                                 <button type="button" class="btn-custom" onclick="onExportSettingClick()">
                                     导出设定
                                 </button>
@@ -193,13 +207,15 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover Font</label>
+                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover
+                                                    Font</label>
                                                 <div class="col-sm-8">
                                                     <input list="fontFaces" name="cover-fontFace" /></label>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font Size (pt)</label>
+                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font
+                                                    Size (pt)</label>
                                                 <div class="col-sm-8">
                                                     <input type="number" name="cover-fontSize" placeholder="10">
                                                 </div>
@@ -364,7 +380,7 @@
                                                     <input type="number" name="charSpacing" placeholder="2">
                                                 </div>
                                             </div>
-                                            
+
                                             <hr>
                                             <div class="row">
                                                 <label for="cover-y" class="col-sm-4 col-form-label">Cover Y(%)</label>
@@ -373,13 +389,15 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover Font</label>
+                                                <label for="cover-fontFace" class="col-sm-4 col-form-label">Cover
+                                                    Font</label>
                                                 <div class="col-sm-8">
                                                     <input list="fontFaces" name="cover-fontFace" /></label>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font Size (pt)</label>
+                                                <label for="cover-fontSize" class="col-sm-4 col-form-label">Cover Font
+                                                    Size (pt)</label>
                                                 <div class="col-sm-8">
                                                     <input type="number" name="cover-fontSize" placeholder="10">
                                                 </div>
@@ -539,7 +557,8 @@
                                 </div>
                                 <div>
                                     <label class="custom-file-upload cursor-pointer onhover-underline default-anchor">
-                                        <input type="file" class="d-none" id="uploadSetting" accept="application/JSON" />
+                                        <input type="file" class="d-none" id="uploadSetting"
+                                            accept="application/JSON" />
                                         导入设定
                                     </label>
 
@@ -573,7 +592,8 @@
                             <!-- <a href="#advanced-setting">高级设定</a> -->
                             <h3>7. 预设设定浏览</h3>
                             <ul>
-                                <li><a href="./assets/storage/NewPptGeneratorSettingv3.json" target="_blank">普通预设</a></li>
+                                <li><a href="./assets/storage/NewPptGeneratorSettingv3.json" target="_blank">普通预设</a>
+                                </li>
                                 <li><a href="./assets/storage/EnglishOnlyv2.json" target="_blank">英文普通预设</a></li>
                                 <li><a href="./assets/storage/EnglishOnlyLivev2.json" target="_blank">英文绿幕预设</a></li>
                             </ul>

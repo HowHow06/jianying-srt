@@ -147,6 +147,61 @@ const DEFAULT_OPTION = {
   },
 };
 
+async function getFileFromUrl(url, fileName = "file") {
+  try {
+    const response = await fetch(url);
+    const data = await response.blob();
+    return Promise.resolve(new File([data], fileName));
+  } catch (e) {
+    return Promise.resolve(null);
+  }
+}
+
+function readSettingsFile(file) {
+  var fileReader = new FileReader();
+  fileReader.onload = function (event) {
+    let importedSettings;
+    try {
+      importedSettings = JSON.parse(event.target.result);
+    } catch (error) {
+      console.log(err);
+      alert("Error in compiling imported option, please check your file");
+      return;
+    }
+
+    if (
+      !importedSettings?.advancedPrimaryOption ||
+      !importedSettings?.advancedSecondaryOption
+    ) {
+      alert("Invalid settings");
+      return;
+    }
+    alert("Setting Applied Successfully");
+
+    setAdvancedSettings(
+      importedSettings?.advancedPrimaryOption,
+      importedSettings?.advancedSecondaryOption
+    );
+
+    populateSettings(
+      importedSettings?.advancedPrimaryOption,
+      importedSettings?.advancedSecondaryOption
+    );
+    // reset back to empty, else cannot uploading same file cannot trigger on change
+    document.querySelector("#uploadSetting").value = "";
+  };
+  fileReader.readAsText(file);
+  fileReader = null;
+}
+
+async function readSettingsFileFromURL(url) {
+  const settingFile = await getFileFromUrl(url, `setting-file`);
+  if (!settingFile) {
+    return alert("Invalid settings option");
+  }
+  readSettingsFile(settingFile);
+}
+
 async function onGeneratePptClick() {
   // Swal.fire({
   //   title: "Please Wait...",
@@ -688,43 +743,6 @@ function getUiOption(formData) {
     }
     readSettingsFile(event.target.files[0]);
   });
-
-  function readSettingsFile(file) {
-    var fileReader = new FileReader();
-    fileReader.onload = function (event) {
-      let importedSettings;
-      try {
-        importedSettings = JSON.parse(event.target.result);
-      } catch (error) {
-        console.log(err);
-        alert("Error in compiling imported option, please check your file");
-        return;
-      }
-
-      if (
-        !importedSettings?.advancedPrimaryOption ||
-        !importedSettings?.advancedSecondaryOption
-      ) {
-        alert("Invalid settings");
-        return;
-      }
-      alert("Imported Successfully");
-
-      setAdvancedSettings(
-        importedSettings?.advancedPrimaryOption,
-        importedSettings?.advancedSecondaryOption
-      );
-
-      populateSettings(
-        importedSettings?.advancedPrimaryOption,
-        importedSettings?.advancedSecondaryOption
-      );
-      // reset back to empty, else cannot uploading same file cannot trigger on change
-      document.querySelector("#uploadSetting").value = "";
-    };
-    fileReader.readAsText(file);
-    fileReader = null;
-  }
 })();
 
 //set default settings
