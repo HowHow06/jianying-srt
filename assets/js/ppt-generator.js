@@ -239,10 +239,14 @@ async function onGeneratePptClick() {
   const isOneLinePerSlide = document.getElementById(
     "chbIsOneLinePerSlide"
   ).checked;
+  const isBackgroundColorWhenEmpty = document.getElementById(
+    "chbIsBackgroundColorWhenEmpty"
+  ).checked;
 
   generateFullPpt({
     hasSecondaryContent: hasSecondaryContent,
     linePerSlide: isOneLinePerSlide ? 1 : DEFAULT_LINE_COUNT_PER_ROW,
+    isBackgroundColorWhenEmpty,
   });
 }
 
@@ -271,7 +275,11 @@ function getBase64(file) {
 }
 
 // this function requires pptxgen library imported at the first place
-async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
+async function generateFullPpt({
+  hasSecondaryContent = true,
+  linePerSlide,
+  isBackgroundColorWhenEmpty,
+}) {
   const linePerRow = linePerSlide;
   let coverCount = 0;
   let sectionCount = 0;
@@ -305,8 +313,12 @@ async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
   const backgroundProp = await GetPptBackgroundProp();
 
   pres.defineSlideMaster({
-    title: "MASTER_SLIDE",
+    title: "MASTER_SLIDE_BACKGROUND_IMAGE",
     background: backgroundProp,
+  });
+  pres.defineSlideMaster({
+    title: "MASTER_SLIDE_BACKGROUND_COLOR",
+    background: { color: backgroundProp.color },
   });
 
   // 3.0 Get Options
@@ -336,11 +348,15 @@ async function generateFullPpt({ hasSecondaryContent = true, linePerSlide }) {
       currentLine = currentLine.match(regex)[0].replace("# ", "").trim();
     }
 
+    const isEmptyLine = currentLine.trim().length == 0;
+
     let slide = GetWorkingSlide({
       pres,
       currentIndex,
       linePerRow,
       isCover,
+      isEmptyLine,
+      isBackgroundColorWhenEmpty,
       ...(currentSection && { currentSection }),
     });
 
@@ -435,11 +451,16 @@ function GetWorkingSlide({
   linePerRow,
   isCover,
   currentSection,
+  isEmptyLine,
+  isBackgroundColorWhenEmpty,
 }) {
   const remainder = currentIndex % linePerRow; //create new slide if remainder is 0
+  const isUseBackgroundColor = isEmptyLine && isBackgroundColorWhenEmpty;
   if (remainder === 0 || isCover) {
     return pres.addSlide({
-      masterName: "MASTER_SLIDE",
+      masterName: isUseBackgroundColor
+        ? "MASTER_SLIDE_BACKGROUND_COLOR"
+        : "MASTER_SLIDE_BACKGROUND_IMAGE",
       ...(currentSection && { sectionTitle: currentSection }),
     });
   }
